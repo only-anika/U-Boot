@@ -1,0 +1,91 @@
+/* Allgemeine Einstellungen */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background: #001f3f; /* Dunkles Meerblau */
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Hero-Bereich */
+.hero {
+  height: 100vh;
+  background: linear-gradient(#4cc9f0, #1d3557);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.title {
+  font-size: 4rem;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+/* ⭐ U-Boot Position */
+.submarine {
+  position: absolute;
+  left: 50%;
+  top: 60%;            /* Startposition */
+  transform: translateX(-50%);
+  width: 180px;
+  pointer-events: none; /* Damit man es nicht anklickt */
+}
+
+.submarine img {
+  width: 100%;
+}
+
+/* Sections */
+.section {
+  height: 100vh;
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #003566;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.section1 {
+  background: linear-gradient(#1d3557, #003049);
+}
+
+.section2 {
+  background: linear-gradient(#003049, #001d3d);
+}
+
+.section3 {
+  background: linear-gradient(#001d3d, #000814);
+}
+
+.section h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.section p {
+  max-width: 600px;
+  font-size: 1.3rem;
+  line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+  padding: 40px;
+  text-align: center;
+  background: #000814;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
