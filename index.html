@@ -7,61 +7,53 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="ocean-container">
-        <!-- Himmel & Wasseroberfläche -->
-        <div class="section sky-section">
-            <div class="sun"></div>
-            <div class="waves-top">
-                <div class="wave-shape"></div>
+    <div class="ocean-background"></div>
+    
+    <div class="content-container">
+        <!-- 1. Epipelagial -->
+        <section class="content-section zone-1">
+            <div class="content-box">
+                <h2>Epipelagial</h2>
+                <p class="depth">bis 200m tief</p>
+                <p>Von Sonne durchflutet. Hier leben Plankton, Fische, Meeressäuger, Krebse, Kopffüßer und Schildkröten.</p>
             </div>
-            <div class="content">
-                <div class="content-box">
-                    <h1>Willkommen</h1>
-                    <p>Tauche ein in die Tiefen des Ozeans und entdecke eine Welt voller Wunder.</p>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <!-- Flaches Wasser -->
-        <div class="section shallow-section">
-            <div class="rock-right"></div>
-            <div class="seaweed">
-                <div class="seaweed-strand strand1"></div>
-                <div class="seaweed-strand strand2"></div>
-                <div class="seaweed-strand strand3"></div>
+        <!-- 2. Mesopelagial -->
+        <section class="content-section zone-2">
+            <div class="content-box">
+                <h2>Mesopelagial</h2>
+                <p class="depth">200 bis 1000 Meter Tiefe</p>
+                <p>Die Untergrenze markiert den Beginn der eigentlichen Tiefsee. In dieser Dämmerzone gibt es keine Photosynthese und keinen Pflanzenbewuchs mehr. Hier findet man den Schwertfisch.</p>
             </div>
-            <div class="coral1"></div>
-            <div class="kelp"></div>
-            <div class="rock-left-top"></div>
-            <div class="content">
-                <div class="content-box">
-                    <h2>Die flachen Gewässer</h2>
-                    <p>Hier, wo das Sonnenlicht noch durchdringt, blüht das Leben in all seiner Vielfalt.</p>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <!-- Mittlere Tiefe -->
-        <div class="section mid-section">
-            <div class="content">
-                <div class="content-box">
-                    <h2>Die Mitteltiefen</h2>
-                    <p>In dieser Übergangszone treffen verschiedene Ökosysteme aufeinander.</p>
-                </div>
+        <!-- 3. Bathypelagial -->
+        <section class="content-section zone-3">
+            <div class="content-box">
+                <h2>Bathypelagial</h2>
+                <p class="depth">1000 bis 4000 Meter</p>
+                <p>Der Druck beträgt bis etwa 400 bar. Kein Sonnenlicht erreicht diese Tiefe, nur einige Fische und Bakterien erzeugen Licht. Hier leben Kalmare.</p>
             </div>
-        </div>
+        </section>
 
-        <!-- Tiefsee -->
-        <div class="section deep-section">
-            <div class="rock-left-bottom"></div>
-            <div class="rock-right-bottom"></div>
-            <div class="content">
-                <div class="content-box">
-                    <h2>Die Tiefsee</h2>
-                    <p>In der ewigen Dunkelheit existieren die faszinierendsten Kreaturen unseres Planeten.</p>
-                </div>
+        <!-- 4. Abyssopelagial -->
+        <section class="content-section zone-4">
+            <div class="content-box">
+                <h2>Abyssopelagial</h2>
+                <p class="depth">4000 bis 6000 Meter</p>
+                <p>Temperaturen nahe dem Gefrierpunkt, Druck von bis zu 600 bar. Da Nahrung spärlich ist, haben einige Tiere auffallend große Münder entwickelt. Heimat der Tiefsee-Anglerfische.</p>
             </div>
-        </div>
+        </section>
+
+        <!-- 5. Hadopelagial -->
+        <section class="content-section zone-5">
+            <div class="content-box">
+                <h2>Hadopelagial</h2>
+                <p class="depth">6000 bis ca. 11.000 Meter Tiefe</p>
+                <p>Die tiefste Zone reicht bis zum Marianengraben. Der Druck ist bis zu 1100-mal höher als an der Wasseroberfläche, die Temperatur nahe am Gefrierpunkt. Hier leben Borstenwürmer.</p>
+            </div>
+        </section>
     </div>
 
     <script src="main.js"></script>
