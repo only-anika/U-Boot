@@ -9,6 +9,31 @@
 <body>
     <div class="ocean-background"></div>
     
+    <!-- U-Boot -->
+    <div class="submarine">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1360 860'%3E%3Cellipse cx='680' cy='550' rx='600' ry='250' fill='%23f4c430' stroke='%23333' stroke-width='8'/%3E%3Cpath d='M 180 550 Q 180 700 280 750 L 1080 750 Q 1180 700 1180 550 Z' fill='%23e6b800' stroke='%23333' stroke-width='8'/%3E%3Ccircle cx='280' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='380' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='480' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='580' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='680' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='780' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='880' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='980' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='1080' cy='700' r='12' fill='%23333'/%3E%3Cline x1='250' y1='550' x2='250' y2='380' stroke='%23333' stroke-width='6'/%3E%3Crect x='420' y='200' width='280' height='180' rx='20' fill='%23f4c430' stroke='%23333' stroke-width='8'/%3E%3Crect x='440' y='220' width='240' height='140' rx='15' fill='%23e6b800' stroke='%23333' stroke-width='6'/%3E%3Crect x='550' y='50' width='40' height='170' rx='8' fill='%23e6b800' stroke='%23333' stroke-width='6'/%3E%3Crect x='535' y='30' width='70' height='40' rx='10' fill='%23333' stroke='%23333' stroke-width='6'/%3E%3Cpath d='M 535 50 L 460 50 L 460 20 L 500 20' fill='%23e6b800' stroke='%23333' stroke-width='6'/%3E%3Cellipse cx='560' cy='290' rx='50' ry='45' fill='%2317a2b8' stroke='%23333' stroke-width='6'/%3E%3Cellipse cx='560' cy='290' rx='35' ry='30' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='3'/%3E%3Ccircle cx='550' cy='280' r='8' fill='%23a8e6f0'/%3E%3Ccircle cx='570' cy='295' r='5' fill='%23a8e6f0'/%3E%3Cellipse cx='350' cy='500' rx='70' ry='65' fill='%23ff8c42' stroke='%23333' stroke-width='8'/%3E%3Cellipse cx='350' cy='500' rx='60' ry='55' fill='%2317a2b8' stroke='%23ff8c42' stroke-width='6'/%3E%3Cellipse cx='350' cy='500' rx='45' ry='40' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='4'/%3E%3Ccircle cx='340' cy='490' r='12' fill='%23a8e6f0'/%3E%3Ccircle cx='360' cy='505' r='8' fill='%23a8e6f0'/%3E%3Cellipse cx='580' cy='500' rx='70' ry='65' fill='%23ff8c42' stroke='%23333' stroke-width='8'/%3E%3Cellipse cx='580' cy='500' rx='60' ry='55' fill='%2317a2b8' stroke='%23ff8c42' stroke-width='6'/%3E%3Cellipse cx='580' cy='500' rx='45' ry='40' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='4'/%3E%3Ccircle cx='570' cy='490' r='12' fill='%23a8e6f0'/%3E%3Ccircle cx='590' cy='505' r='8' fill='%23a8e6f0'/%3E%3Cellipse cx='810' cy='500' rx='70' ry='65' fill='%23ff8c42' stroke='%23333' stroke-width='8'/%3E%3Cellipse cx='810' cy='500' rx='60' ry='55' fill='%2317a2b8' stroke='%23ff8c42' stroke-width='6'/%3E%3Cellipse cx='810' cy='500' rx='45' ry='40' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='4'/%3E%3Ccircle cx='800' cy='490' r='12' fill='%23a8e6f0'/%3E%3Ccircle cx='820' cy='505' r='8' fill='%23a8e6f0'/%3E%3Cpath d='M 1180 500 L 1300 400 L 1320 450 L 1280 550 L 1180 550 Z' fill='%23f4c430' stroke='%23333' stroke-width='8'/%3E%3Cpath d='M 1200 480 L 1280 420 L 1260 530 L 1200 530 Z' fill='%23e6b800' stroke='%23333' stroke-width='4'/%3E%3Ccircle cx='1260' cy='550' r='50' fill='%23ff8c42' stroke='%23333' stroke-width='6'/%3E%3Cellipse cx='1260' cy='550' rx='70' ry='15' fill='%23e67e22' stroke='%23333' stroke-width='4'/%3E%3Cellipse cx='1260' cy='550' rx='15' ry='70' fill='%23e67e22' stroke='%23333' stroke-width='4'/%3E%3Ccircle cx='1260' cy='550' r='20' fill='%23d35400' stroke='%23333' stroke-width='4'/%3E%3C/svg%3E" alt="U-Boot">
+    </div>
+    
+    <!-- Tiefenmaßband -->
+    <div class="depth-meter">
+        <div class="meter-container">
+            <div class="meter-line"></div>
+            <div class="meter-marker"></div>
+            <div class="depth-display">
+                <span class="depth-value">0</span>
+                <span class="depth-unit">m</span>
+            </div>
+        </div>
+        <div class="meter-scale">
+            <div class="scale-mark" data-depth="0"><span>0m</span></div>
+            <div class="scale-mark" data-depth="200"><span>200m</span></div>
+            <div class="scale-mark" data-depth="1000"><span>1000m</span></div>
+            <div class="scale-mark" data-depth="4000"><span>4000m</span></div>
+            <div class="scale-mark" data-depth="6000"><span>6000m</span></div>
+            <div class="scale-mark" data-depth="11000"><span>11000m</span></div>
+        </div>
+    </div>
+    
     <div class="content-container">
         <!-- 1. Epipelagial -->
         <section class="content-section zone-1">
@@ -33,7 +58,7 @@
             <div class="content-box">
                 <h2>Bathypelagial</h2>
                 <p class="depth">1000 bis 4000 Meter</p>
-                <p>Die Bathypelagial Zone liegt 1000 bis zu 4000 Metern tief. Der Druck beträgt bis etwa 400 bar. Es gibt kein Sonnenlicht mehr, nur einige Fische und Bakterien erzeugen Licht. </p>
+                <p>Die Bathypelagial Zone liegt 1000 bis zu 4000 Metern tief. Der Druck beträgt bis etwa 400 bar. Es gibt kein Sonnenlicht mehr, nur einige Fische und Bakterien erzeugen Licht.</p>
             </div>
         </section>
 
@@ -56,6 +81,9 @@
         </section>
     </div>
 
+    <!-- GSAP Bibliotheken -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
