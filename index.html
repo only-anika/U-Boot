@@ -3,87 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ozean Scrolling Page</title>
+    <title>Ocean Adventure - Reise in die Tiefsee</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
+
+    <!-- Fixierter Hintergrund -->
     <div class="ocean-background"></div>
-    
+
     <!-- U-Boot -->
     <div class="submarine">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1360 860'%3E%3Cellipse cx='680' cy='550' rx='600' ry='250' fill='%23f4c430' stroke='%23333' stroke-width='8'/%3E%3Cpath d='M 180 550 Q 180 700 280 750 L 1080 750 Q 1180 700 1180 550 Z' fill='%23e6b800' stroke='%23333' stroke-width='8'/%3E%3Ccircle cx='280' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='380' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='480' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='580' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='680' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='780' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='880' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='980' cy='700' r='12' fill='%23333'/%3E%3Ccircle cx='1080' cy='700' r='12' fill='%23333'/%3E%3Cline x1='250' y1='550' x2='250' y2='380' stroke='%23333' stroke-width='6'/%3E%3Crect x='420' y='200' width='280' height='180' rx='20' fill='%23f4c430' stroke='%23333' stroke-width='8'/%3E%3Crect x='440' y='220' width='240' height='140' rx='15' fill='%23e6b800' stroke='%23333' stroke-width='6'/%3E%3Crect x='550' y='50' width='40' height='170' rx='8' fill='%23e6b800' stroke='%23333' stroke-width='6'/%3E%3Crect x='535' y='30' width='70' height='40' rx='10' fill='%23333' stroke='%23333' stroke-width='6'/%3E%3Cpath d='M 535 50 L 460 50 L 460 20 L 500 20' fill='%23e6b800' stroke='%23333' stroke-width='6'/%3E%3Cellipse cx='560' cy='290' rx='50' ry='45' fill='%2317a2b8' stroke='%23333' stroke-width='6'/%3E%3Cellipse cx='560' cy='290' rx='35' ry='30' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='3'/%3E%3Ccircle cx='550' cy='280' r='8' fill='%23a8e6f0'/%3E%3Ccircle cx='570' cy='295' r='5' fill='%23a8e6f0'/%3E%3Cellipse cx='350' cy='500' rx='70' ry='65' fill='%23ff8c42' stroke='%23333' stroke-width='8'/%3E%3Cellipse cx='350' cy='500' rx='60' ry='55' fill='%2317a2b8' stroke='%23ff8c42' stroke-width='6'/%3E%3Cellipse cx='350' cy='500' rx='45' ry='40' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='4'/%3E%3Ccircle cx='340' cy='490' r='12' fill='%23a8e6f0'/%3E%3Ccircle cx='360' cy='505' r='8' fill='%23a8e6f0'/%3E%3Cellipse cx='580' cy='500' rx='70' ry='65' fill='%23ff8c42' stroke='%23333' stroke-width='8'/%3E%3Cellipse cx='580' cy='500' rx='60' ry='55' fill='%2317a2b8' stroke='%23ff8c42' stroke-width='6'/%3E%3Cellipse cx='580' cy='500' rx='45' ry='40' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='4'/%3E%3Ccircle cx='570' cy='490' r='12' fill='%23a8e6f0'/%3E%3Ccircle cx='590' cy='505' r='8' fill='%23a8e6f0'/%3E%3Cellipse cx='810' cy='500' rx='70' ry='65' fill='%23ff8c42' stroke='%23333' stroke-width='8'/%3E%3Cellipse cx='810' cy='500' rx='60' ry='55' fill='%2317a2b8' stroke='%23ff8c42' stroke-width='6'/%3E%3Cellipse cx='810' cy='500' rx='45' ry='40' fill='%230d7a8a' stroke='%2317a2b8' stroke-width='4'/%3E%3Ccircle cx='800' cy='490' r='12' fill='%23a8e6f0'/%3E%3Ccircle cx='820' cy='505' r='8' fill='%23a8e6f0'/%3E%3Cpath d='M 1180 500 L 1300 400 L 1320 450 L 1280 550 L 1180 550 Z' fill='%23f4c430' stroke='%23333' stroke-width='8'/%3E%3Cpath d='M 1200 480 L 1280 420 L 1260 530 L 1200 530 Z' fill='%23e6b800' stroke='%23333' stroke-width='4'/%3E%3Ccircle cx='1260' cy='550' r='50' fill='%23ff8c42' stroke='%23333' stroke-width='6'/%3E%3Cellipse cx='1260' cy='550' rx='70' ry='15' fill='%23e67e22' stroke='%23333' stroke-width='4'/%3E%3Cellipse cx='1260' cy='550' rx='15' ry='70' fill='%23e67e22' stroke='%23333' stroke-width='4'/%3E%3Ccircle cx='1260' cy='550' r='20' fill='%23d35400' stroke='%23333' stroke-width='4'/%3E%3C/svg%3E" alt="U-Boot">
+        <img src="Submarine.png" alt="Gelbes U-Boot">
     </div>
-    
+
     <!-- Tiefenmaßband -->
     <div class="depth-meter">
+        <div class="meter-scale">
+            <div class="scale-mark"><span>0m</span></div>
+            <div class="scale-mark"><span>2000m</span></div>
+            <div class="scale-mark"><span>4000m</span></div>
+            <div class="scale-mark"><span>6000m</span></div>
+            <div class="scale-mark"><span>8000m</span></div>
+            <div class="scale-mark"><span>11000m</span></div>
+        </div>
         <div class="meter-container">
             <div class="meter-line"></div>
             <div class="meter-marker"></div>
             <div class="depth-display">
-                <span class="depth-value">0</span>
-                <span class="depth-unit">m</span>
+                <span class="depth-value">0</span><span class="depth-unit">m</span>
             </div>
         </div>
-        <div class="meter-scale">
-            <div class="scale-mark" data-depth="0"><span>0m</span></div>
-            <div class="scale-mark" data-depth="200"><span>200m</span></div>
-            <div class="scale-mark" data-depth="1000"><span>1000m</span></div>
-            <div class="scale-mark" data-depth="4000"><span>4000m</span></div>
-            <div class="scale-mark" data-depth="6000"><span>6000m</span></div>
-            <div class="scale-mark" data-depth="11000"><span>11000m</span></div>
-        </div>
     </div>
-    
+
+    <!-- Content Container -->
     <div class="content-container">
-        <!-- 1. Epipelagial -->
+
+        <!-- Startseite -->
+        <section class="start-section">
+            <div class="start-content">
+                <h1 class="main-title">Ocean Adventure</h1>
+                <p class="subtitle">Eine Reise in die Tiefen des Ozeans</p>
+                <div class="intro-text">
+                    <p>Begleite unser gelbes U-Boot auf einer faszinierenden Expedition durch die verschiedenen Schichten des Ozeans.</p>
+                    <p>Von der sonnendurchfluteten Oberfläche bis hinab zum Marianengraben – entdecke die geheimnisvollen Welten der Tiefsee.</p>
+                </div>
+                <p class="scroll-hint">↓ Scrolle nach unten, um die Reise zu beginnen ↓</p>
+            </div>
+        </section>
+
+        <!-- Zone 1: Epipelagial -->
         <section class="content-section zone-1">
             <div class="content-box">
                 <h2>Epipelagial</h2>
-                <p class="depth">bis 200m tief</p>
-                <p>Die Epipelagial Zone ist bis zu 200m tief und von Sonne durchflutet. Dort leben Plankton, Fische, Meeressäuger, Krebse und Kopffüßer.</p>
+                <p class="depth">0 - 200 Meter Tiefe</p>
+                <p>Die Sonnenlichtzone ist der hellste und lebendigste Bereich des Ozeans. Hier findet die Photosynthese statt, und unzählige Fischarten, Delfine und sogar Wale durchstreifen diese Gewässer. Das Leben pulsiert in allen Farben des Regenbogens.</p>
             </div>
         </section>
 
-        <!-- 2. Mesopelagial -->
+        <!-- Zone 2: Mesopelagial -->
         <section class="content-section zone-2">
             <div class="content-box">
                 <h2>Mesopelagial</h2>
-                <p class="depth">200 bis 1000 Meter Tiefe</p>
-                <p>Die Mesopelagial Zone auch Dämmerzone reicht von 200 bis 1000 Metern. Ihre Untergrenze markiert den Beginn der eigentlichen Tiefsee. Hier ist Photosynthese nicht mehr möglich, dadurch gibt es auch keinen Pflanzenbewuchs. Unteranderem leben dort Fische wie Laternenfische, Schnepfenaale aber auch Wirbellose wie Garnelen oder Tintenfische.</p>
+                <p class="depth">200 - 1.000 Meter Tiefe</p>
+                <p>Willkommen in der Dämmerungszone! Das Sonnenlicht schwindet langsam, und seltsame Kreaturen mit Biolumineszenz erscheinen. Hier leben geheimnisvolle Tiefseetiere wie Laternenfische und Riesenkalmare, die in der Dunkelheit leuchten.</p>
             </div>
         </section>
 
-        <!-- 3. Bathypelagial -->
+        <!-- Zone 3: Bathypelagial -->
         <section class="content-section zone-3">
             <div class="content-box">
                 <h2>Bathypelagial</h2>
-                <p class="depth">1000 bis 4000 Meter</p>
-                <p>Die Bathypelagial Zone liegt 1000 bis zu 4000 Metern tief. Der Druck beträgt bis etwa 400 bar. Es gibt kein Sonnenlicht mehr, nur einige Fische und Bakterien erzeugen Licht.</p>
+                <p class="depth">1.000 - 4.000 Meter Tiefe</p>
+                <p>In der Mitternachtszone herrscht absolute Finsternis. Nur noch wenige Lebewesen können hier überleben. Der Druck ist immens, und bizarre Kreaturen wie der Anglerfisch jagen mit leuchtenden Ködern in der ewigen Nacht.</p>
             </div>
         </section>
 
-        <!-- 4. Abyssopelagial -->
+        <!-- Zone 4: Abyssopelagial -->
         <section class="content-section zone-4">
             <div class="content-box">
                 <h2>Abyssopelagial</h2>
-                <p class="depth">4000 bis 6000 Meter</p>
-                <p>Die Abyssopelagial Zone reicht von 4000 bis 6000 Metern, die Temperaturen nahe hier dem Gefrierpunkt und der Druck steigt auf bis zu 600 bar. Da Nahrung in diesen Tiefen spärlich ist, haben sich bei einigen Tieren auffallend große Münder entwickelt, sodass sie jedwede Beute machen können.</p>
+                <p class="depth">4.000 - 6.000 Meter Tiefe</p>
+                <p>Die Abyssalzone ist eine fremde, unwirtliche Welt. Hier am Meeresgrund gibt es kaum Leben, doch spezielle Organismen haben sich perfekt angepasst. Hydrothermalquellen bieten Oasen des Lebens in dieser lebensfeindlichen Umgebung.</p>
             </div>
         </section>
 
-        <!-- 5. Hadopelagial -->
+        <!-- Zone 5: Hadopelagial -->
         <section class="content-section zone-5">
             <div class="content-box">
                 <h2>Hadopelagial</h2>
-                <p class="depth">6000 bis ca. 11.000 Meter Tiefe</p>
-                <p>Die Hadopelagial ist tiefste Zone. Sie reicht von 6000 bis zu circa 11.000 Metern, dem tiefsten Punkt der Weltmeere dem Marianengraben. Der Druck beträgt bis zu 1100 Bar.</p>
+                <p class="depth">6.000 - 11.000 Meter Tiefe</p>
+                <p>Willkommen in der tiefsten Zone des Ozeans – der Hadal-Zone. Hier im Marianengraben herrschen extreme Bedingungen: eisige Kälte, totale Finsternis und unvorstellbarer Druck. Nur die widerstandsfähigsten Lebensformen können hier existieren.</p>
             </div>
         </section>
+
     </div>
 
-    <!-- GSAP Bibliotheken -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
