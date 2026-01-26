@@ -20,7 +20,6 @@ const depthRanges = [
 { start: 6000, end: 11000 } // Zone 5: Hadopelagial
 ];
 
-// Scroll-basierter Hintergrund-Parallax und U-Boot-Bewegung
 let ticking = false;
 window.addEventListener('scroll', () => {
 if (!ticking) {
@@ -28,7 +27,7 @@ window.requestAnimationFrame(() => {
 updateBackground();
 updateSubmarine();
 updateDepthMeter();
-updateMeterScroll(); // DAS MASSTBAND SCROLLT MIT
+updateMeterScroll();
 ticking = false;
 });
 ticking = true;
@@ -43,30 +42,42 @@ background.style.backgroundPosition = `center ${backgroundOffset}%`;
 
 function updateSubmarine() {
 const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-const minTop = 15;
+// U-Boot bewegt sich von oben (bei den Wellen) nach unten
+const minTop = 35; // Startet bei den Wellen
 const maxTop = 75;
 const topPosition = minTop + (scrollPercent * (maxTop - minTop));
 const horizontalWave = Math.sin(scrollPercent * Math.PI * 4) * 8;
-const baseLeft = 8;
+const baseRight = 8;
 const rotation = Math.sin(scrollPercent * Math.PI * 6) * 8;
 
 submarine.style.top = `${topPosition}%`;
-submarine.style.left = `${baseLeft + horizontalWave}%`;
+submarine.style.right = `${baseRight + horizontalWave}%`;
 submarine.style.transform = `rotate(${rotation}deg)`;
 }
 
-// DAS MASSTBAND SCROLLT NACH UNTEN
+// WICHTIG: Das Maßband scrollt so, dass 0m bei den Wellen (Mitte) beginnt
 function updateMeterScroll() {
 const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-// Das Maßband bewegt sich nach unten (von 0 bis -2500px)
-const meterTop = -(scrollPercent * 2500);
+// Berechnung: 
+// - Bei scrollPercent = 0 (ganz oben): 0m ist in der Bildschirmmitte (50vh)
+// - Marker ist bei 50vh
+// - Maßband muss so positioniert sein, dass 0m (=top des Maßbands) bei 50vh ist
+// - Also: top des Maßbands = 50vh bei Start
+// - Beim Scrollen bewegt sich das Maßband nach oben (negativ)
+
+const windowHeight = window.innerHeight;
+const meterStart = windowHeight * 0.5; // 0m beginnt bei 50vh (Mitte = Wellen)
+const totalScroll = 4500; // Wie weit das Maßband nach oben scrollt
+
+// top Position: Startet bei +50vh und geht bis -4000px
+const meterTop = meterStart - (scrollPercent * totalScroll);
 depthMeter.style.top = `${meterTop}px`;
 }
 
 function updateDepthMeter() {
 const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
 
-// Berechne aktuelle Tiefe basierend auf Scroll-Position
+// Berechne aktuelle Tiefe: 0m bei scrollPercent = 0, 11000m bei scrollPercent = 1
 let currentDepth = 0;
 const totalZones = depthRanges.length;
 const zoneProgress = scrollPercent * totalZones;
@@ -75,29 +86,38 @@ const zoneLocalProgress = zoneProgress - currentZoneIndex;
 const currentRange = depthRanges[currentZoneIndex];
 currentDepth = currentRange.start + (currentRange.end - currentRange.start) * zoneLocalProgress;
 
-// Animiere die Tiefenzahl mit GSAP
-gsap.to(depthValue, {
-innerText: Math.round(currentDepth),
-duration: 0.2,
-snap: { innerText: 1 },
-ease: "power1.out"
-});
+// Zeige die aktuelle Tiefe in der Anzeige
+depthValue.textContent = Math.round(currentDepth);
 
-// Ändere Marker-Farbe basierend auf Tiefe
+// Ändere Farben basierend auf Tiefe
 let markerColor = '#4db8ff';
 if (currentDepth > 6000) {
-markerColor = '#8b0000';
+markerColor = '#8b0000'; // Dunkelrot
 } else if (currentDepth > 4000) {
-markerColor = '#ff4444';
+markerColor = '#ff4444'; // Rot
 } else if (currentDepth > 1000) {
-markerColor = '#ff8844';
+markerColor = '#ff8844'; // Orange
 } else if (currentDepth > 200) {
-markerColor = '#ffaa44';
+markerColor = '#ffaa44'; // Gelb-Orange
 }
 
+// Ändere Marker-Farbe
 gsap.to(meterMarker, {
 background: markerColor,
 boxShadow: `0 0 20px ${markerColor}`,
+duration: 0.5
+});
+
+// Ändere Anzeige-Farbe
+gsap.to('.depth-display', {
+borderColor: markerColor,
+boxShadow: `0 0 30px ${markerColor}`,
+duration: 0.5
+});
+
+gsap.to('.depth-value', {
+color: markerColor,
+textShadow: `0 0 15px ${markerColor}`,
 duration: 0.5
 });
 }
@@ -128,13 +148,13 @@ const rect = section.getBoundingClientRect();
 if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
 if (currentZone !== index + 1) {
 currentZone = index + 1;
-console.log(`Aktuelle Zone: ${currentZone}`);
+console.log(`Aktuelle Zone: ${currentZone} - Tiefe: ${Math.round(parseFloat(depthValue.textContent))}m`);
 }
 }
 });
 });
 
-// Initiale Updates
+// INITIALE UPDATES
 updateSubmarine();
 updateDepthMeter();
 updateMeterScroll();

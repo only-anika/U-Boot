@@ -18,18 +18,18 @@ top: 0;
 left: 0;
 width: 100%;
 height: 100%;
-background-image: url('U-Boot_Hintergrund.png');
+background-image: url('U-Boot_Hintergrund.jpg');
 background-size: cover;
 background-position: center top;
 background-repeat: no-repeat;
 z-index: -1;
 }
 
-/* U-Boot - GRÖSSER */
+/* U-Boot - STARTET IM WASSER BEI DEN WELLEN */
 .submarine {
 position: fixed;
-left: 10%;
-top: 20%;
+right: 8%;
+top: 35%;
 width: 250px;
 z-index: 5;
 transition: all 0.3s ease-out;
@@ -41,7 +41,35 @@ height: auto;
 filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.5));
 }
 
-/* Tiefenmaßband - SCROLLT MIT NACH UNTEN */
+/* Anzeige - OBEN MITTE - IMMER SICHTBAR - AUSSERHALB vom depth-meter */
+.depth-display {
+position: fixed;
+left: 50%;
+top: 30px;
+transform: translateX(-50%);
+background: rgba(0, 0, 0, 0.9);
+padding: 15px 30px;
+border-radius: 15px;
+border: 3px solid #4db8ff;
+white-space: nowrap;
+box-shadow: 0 0 30px rgba(77, 184, 255, 0.9);
+z-index: 100;
+}
+
+.depth-value {
+font-size: 32px;
+font-weight: bold;
+color: #4db8ff;
+text-shadow: 0 0 15px rgba(77, 184, 255, 1);
+}
+
+.depth-unit {
+font-size: 20px;
+color: #80d4ff;
+margin-left: 3px;
+}
+
+/* Tiefenmaßband - LINKS */
 .depth-meter {
 position: fixed;
 left: 30px;
@@ -50,14 +78,13 @@ z-index: 10;
 display: flex;
 align-items: flex-start;
 gap: 15px;
-transition: top 0.1s linear;
 }
 
-/* Sehr langes Maßband */
+/* Maßband Container - 0m bis 11000m = 12 Markierungen */
 .meter-container {
 position: relative;
 width: 60px;
-height: 3000px; /* SEHR LANG für alle Tiefenmeter */
+height: 5500px; /* Lang genug für 12 Markierungen */
 background: rgba(0, 0, 0, 0.7);
 border: 3px solid rgba(255, 255, 255, 0.5);
 border-radius: 30px;
@@ -83,19 +110,20 @@ background: linear-gradient(to bottom,
 );
 }
 
-/* Marker bleibt auf dem Bildschirm */
+/* Marker - BLEIBT IMMER IN DER MITTE */
 .meter-marker {
 position: fixed;
-left: 57px; /* 30px + 60px/2 - 18px */
-top: 50%;
+left: 57px;
+top: 50vh;
 transform: translateY(-50%);
 width: 35px;
 height: 35px;
-background: #ff6b6b;
+background: #4db8ff;
 border: 4px solid white;
 border-radius: 50%;
-box-shadow: 0 0 20px rgba(255, 107, 107, 1);
-z-index: 15;
+box-shadow: 0 0 20px rgba(77, 184, 255, 1);
+z-index: 20;
+pointer-events: none;
 }
 
 .meter-marker::before {
@@ -110,42 +138,14 @@ background: white;
 border-radius: 50%;
 }
 
-/* Anzeige am Marker */
-.depth-display {
-position: fixed;
-left: 120px;
-top: 50%;
-transform: translateY(-50%);
-background: rgba(0, 0, 0, 0.9);
-padding: 8px 15px;
-border-radius: 10px;
-border: 2px solid #4db8ff;
-white-space: nowrap;
-box-shadow: 0 0 20px rgba(77, 184, 255, 0.8);
-z-index: 15;
-}
-
-.depth-value {
-font-size: 22px;
-font-weight: bold;
-color: #4db8ff;
-text-shadow: 0 0 10px rgba(77, 184, 255, 0.8);
-}
-
-.depth-unit {
-font-size: 14px;
-color: #80d4ff;
-margin-left: 2px;
-}
-
-/* Skala links vom Meter - scrollt MIT */
+/* Skala - 12 Markierungen von 0m bis 11000m */
 .meter-scale {
 display: flex;
 flex-direction: column;
 justify-content: flex-start;
-height: 3000px;
+height: 5500px;
 order: -1;
-gap: 273px; /* 3000px / 11 Markierungen */
+gap: 500px; /* 5500px / 11 Abstände = 500px zwischen den Markierungen */
 }
 
 .scale-mark {
@@ -338,10 +338,19 @@ color: #ff6b6b;
 }
 
 @media (max-width: 768px) {
-.submarine { width: 180px; left: 5%; }
+.submarine { width: 180px; right: 5%; }
 .depth-meter {
 left: 10px;
 transform: scale(0.85);
+}
+.depth-display {
+padding: 10px 20px;
+}
+.depth-value {
+font-size: 24px;
+}
+.depth-unit {
+font-size: 16px;
 }
 .main-title { font-size: 3em; }
 .subtitle { font-size: 1.5em; }
