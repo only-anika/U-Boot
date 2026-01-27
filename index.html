@@ -10,20 +10,15 @@
 </head>
 <body>
 
-    <!-- Anzeige OBEN MITTE - IMMER SICHTBAR -->
-    <div class="depth-display">
-        <span class="depth-value">0</span><span class="depth-unit">m</span>
-    </div>
-
     <!-- Fixierter Hintergrund -->
     <div class="ocean-background"></div>
 
     <!-- U-Boot -->
     <div class="submarine">
-        <img src="Submarine.jpg" alt="Gelbes U-Boot">
+        <img src="Submarine.png" alt="Gelbes U-Boot">
     </div>
 
-    <!-- Tiefenmaßband mit korrekten Beschriftungen -->
+    <!-- Tiefenmaßband mit Anzeige -->
     <div class="depth-meter">
         <div class="meter-scale">
             <div class="scale-mark"><span>0m</span></div>
@@ -41,8 +36,12 @@
         </div>
         <div class="meter-container">
             <div class="meter-line"></div>
-            <div class="meter-marker"></div>
         </div>
+    </div>
+
+    <!-- Anzeige rechts vom Tiefenmeter -->
+    <div class="depth-display">
+        <span class="depth-value">0</span><span class="depth-unit">m</span>
     </div>
 
     <!-- Content Container -->
