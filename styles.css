@@ -110,7 +110,7 @@ body {
     margin-left: 3px;
 }
 
-/* Skala - KORRIGIERT */
+/* Skala */
 .meter-scale {
     display: flex;
     flex-direction: column;
@@ -154,7 +154,8 @@ body {
 /* EINFACHE SCHÖNE STARTSEITE */
 .start-section {
     position: relative;
-    min-height: 150vh;
+    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -233,7 +234,8 @@ body {
 /* Content Sektionen */
 .content-section {
     position: relative;
-    min-height: 200vh;
+    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
