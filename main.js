@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const depthValue = document.querySelector('.depth-value');
     const depthDisplay = document.querySelector('.depth-display');
     const depthMeter = document.querySelector('.depth-meter');
+    const turtleContainer = document.querySelector('.turtle-container');
+    const zone1Section = document.querySelector('.zone-1');
+    const zone2Section = document.querySelector('.zone-2');
 
     // GSAP ScrollTrigger registrieren
     gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 updateBackground();
-                updateSubmarine();
+                updateSubmarineWave();
                 updateDepthMeter();
                 updateMeterScroll();
                 ticking = false;
@@ -31,21 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
         background.style.backgroundPosition = `center ${backgroundOffset}%`;
     }
 
-    function updateSubmarine() {
+    // Nur die Wellen-Bewegung, NICHT die horizontale Position (wird von GSAP gesteuert)
+    function updateSubmarineWave() {
         const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        const minTop = 30;
+        const minTop = 40;
         const maxTop = 80;
         const topPosition = minTop + (scrollPercent * (maxTop - minTop));
-        const horizontalWave = Math.sin(scrollPercent * Math.PI * 4) * 8;
-        const baseRight = 8;
         const rotation = Math.sin(scrollPercent * Math.PI * 6) * 8;
 
         submarine.style.top = `${topPosition}%`;
-        submarine.style.right = `${baseRight + horizontalWave}%`;
         submarine.style.transform = `rotate(${rotation}deg)`;
     }
 
-    // Tiefenmeter scrollt von 0m bis 11.000m
     function updateMeterScroll() {
         const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
         const windowHeight = window.innerHeight;
@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentDepth = scrollPercent * 11000;
         depthValue.textContent = Math.round(currentDepth);
 
-        // Farben basierend auf Tiefe
         let color = '#4db8ff';
         if (currentDepth > 6000) {
             color = '#8b0000';
@@ -70,13 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
             color = '#ffaa44';
         }
 
-        // Ändere Anzeige-Farbe
         gsap.to(depthDisplay, {
             borderColor: color,
             boxShadow: `0 0 25px ${color}`,
             duration: 0.5
         });
-
         gsap.to(depthValue, {
             color: color,
             textShadow: `0 0 15px ${color}`,
@@ -84,9 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Intersection Observer für normale Content Boxes
+    // Intersection Observer für Content Boxes
     const observerOptions = {
-        threshold: 0.3,
+        threshold: 0.1,
         rootMargin: '0px'
     };
 
@@ -102,122 +99,137 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(box);
     });
 
-    // Schildkröten-Animation - triggert beim WEITERSCROLLEN nach dem Text
-    const turtleContainer = document.querySelector('.turtle-container');
-    const zone1Section = document.querySelector('.zone-1');
+    // GSAP Animation für Zone 1 -> Schildkröte
+    let zone1AnimationPlayed = false;
+    let zone1AnimationReversed = false;
+    let turtleFixed = false;
 
-    const turtleObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Prüfe Scroll-Fortschritt in Zone 1
-                const rect = entry.target.getBoundingClientRect();
-                const sectionHeight = entry.target.offsetHeight;
-                const scrolledInSection = sectionHeight - rect.top;
-                const scrollProgress = scrolledInSection / sectionHeight;
-
-                // Schildkröte erscheint erst nach 60% Scroll-Fortschritt in Zone 1
-                if (scrollProgress > 0.6) {
-                    turtleContainer.classList.add('visible');
-
-                    const zone1Box = zone1Section.querySelector('.content-box');
-                    if (zone1Box) {
-                        // Text verschwindet KOMPLETT
-                        gsap.to(zone1Box, {
-                            opacity: 0,
-                            x: '-150%',
-                            duration: 1,
-                            ease: 'power2.inOut'
-                        });
-                    }
-
-                    // U-Boot taucht nach rechts (rechts neben Tiefenmeter, ohne Überlappung mit Schildkröte)
-                    gsap.to(submarine, {
-                        left: '220px',
-                        right: 'auto',
-                        duration: 1,
-                        ease: 'power2.inOut'
-                    });
-                }
-            } else {
-                // Wenn Zone 1 verlassen wird, zurücksetzen
-                turtleContainer.classList.remove('visible');
-
-                const zone1Box = zone1Section.querySelector('.content-box');
-                if (zone1Box && zone1Box.classList.contains('visible')) {
-                    gsap.to(zone1Box, {
-                        opacity: 1,
-                        x: 0,
-                        duration: 1,
-                        ease: 'power2.inOut'
-                    });
-                }
-
-                // U-Boot zurück nach rechts
-                gsap.to(submarine, {
-                    left: 'auto',
-                    right: '8%',
-                    duration: 1,
-                    ease: 'power2.inOut'
-                });
-            }
-        });
-    }, {
-        threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
-        rootMargin: '0px'
-    });
-
-    if (zone1Section) {
-        turtleObserver.observe(zone1Section);
-
-        // Zusätzlicher Scroll-Listener für feinere Kontrolle
+    if (zone1Section && turtleContainer) {
         window.addEventListener('scroll', () => {
-            const rect = zone1Section.getBoundingClientRect();
-            const sectionHeight = zone1Section.offsetHeight;
-            const scrolledInSection = sectionHeight - rect.top;
-            const scrollProgress = scrolledInSection / sectionHeight;
+            const zone1Rect = zone1Section.getBoundingClientRect();
+            const zone1Height = zone1Section.offsetHeight;
+            const zone1ScrolledIn = zone1Height - zone1Rect.top;
+            const zone1Progress = zone1ScrolledIn / zone1Height;
 
-            // Schildkröte erscheint erst nach 60% Scroll in Zone 1
-            if (scrollProgress > 0.6 && scrollProgress < 1.5) {
-                if (!turtleContainer.classList.contains('visible')) {
-                    turtleContainer.classList.add('visible');
+            const zone1Box = zone1Section.querySelector('.content-box');
 
-                    const zone1Box = zone1Section.querySelector('.content-box');
+            // Animation startet ERST bei 85% Scroll in Zone 1
+            if (zone1Progress > 0.85 && zone1Progress < 2.0) {
+                if (!zone1AnimationPlayed) {
+                    zone1AnimationPlayed = true;
+                    zone1AnimationReversed = false;
+
+                    const tl = gsap.timeline({
+                        onComplete: () => {
+                            // Nach Animation: Schildkröte bleibt stehen
+                            turtleFixed = true;
+                        }
+                    });
+
+                    // 1. Text gleitet nach links raus
                     if (zone1Box) {
-                        gsap.to(zone1Box, {
-                            opacity: 0,
-                            x: '-150%',
-                            duration: 1,
+                        tl.to(zone1Box, {
+                            x: '-200%',
+                            duration: 1.2,
                             ease: 'power2.inOut'
-                        });
+                        }, 0);
                     }
 
-                    gsap.to(submarine, {
+                    // 2. Schildkröte + Blase schwimmen GEMEINSAM von RECHTS herein
+                    tl.fromTo(turtleContainer, 
+                        {
+                            right: '-1000px',
+                            left: 'auto'
+                        },
+                        {
+                            right: 'auto',
+                            left: '50%',
+                            x: '-50%',
+                            duration: 1.8,
+                            ease: 'power2.out'
+                        }, 0);
+
+                    // 3. U-Boot taucht nach links
+                    tl.to(submarine, {
                         left: '220px',
                         right: 'auto',
-                        duration: 1,
+                        duration: 1.2,
                         ease: 'power2.inOut'
-                    });
+                    }, 0);
                 }
-            } else {
-                if (turtleContainer.classList.contains('visible')) {
-                    turtleContainer.classList.remove('visible');
+            } else if (zone1Progress <= 0.85 && !turtleFixed) {
+                if (zone1AnimationPlayed && !zone1AnimationReversed) {
+                    zone1AnimationReversed = true;
+                    zone1AnimationPlayed = false;
 
-                    const zone1Box = zone1Section.querySelector('.content-box');
+                    const tlBack = gsap.timeline();
+
                     if (zone1Box) {
-                        gsap.to(zone1Box, {
-                            opacity: 1,
+                        tlBack.to(zone1Box, {
                             x: 0,
-                            duration: 1,
+                            duration: 1.2,
                             ease: 'power2.inOut'
-                        });
+                        }, 0);
                     }
 
-                    gsap.to(submarine, {
+                    tlBack.to(turtleContainer, {
+                        right: '-1000px',
+                        left: 'auto',
+                        x: 0,
+                        duration: 1.5,
+                        ease: 'power2.in'
+                    }, 0);
+
+                    tlBack.to(submarine, {
                         left: 'auto',
                         right: '8%',
-                        duration: 1,
+                        duration: 1.2,
                         ease: 'power2.inOut'
-                    });
+                    }, 0);
+                }
+            }
+        });
+    }
+
+    // GSAP Animation für Zone 2
+    let zone2AnimationPlayed = false;
+
+    if (zone2Section) {
+        window.addEventListener('scroll', () => {
+            const zone2Rect = zone2Section.getBoundingClientRect();
+            const zone2Height = zone2Section.offsetHeight;
+            const zone2ScrolledIn = zone2Height - zone2Rect.top;
+            const zone2Progress = zone2ScrolledIn / zone2Height;
+
+            const zone2Box = zone2Section.querySelector('.content-box');
+
+            // Erst bei 30% in Zone 2
+            if (zone2Progress > 0.3 && !zone2AnimationPlayed) {
+                zone2AnimationPlayed = true;
+                turtleFixed = false;
+
+                const tl2 = gsap.timeline();
+
+                // U-Boot taucht ZURÜCK nach rechts
+                tl2.to(submarine, {
+                    left: 'auto',
+                    right: '8%',
+                    duration: 1.2,
+                    ease: 'power2.inOut'
+                }, 0);
+
+                // Schildkröte verschwindet nach rechts raus
+                tl2.to(turtleContainer, {
+                    right: '-1000px',
+                    left: 'auto',
+                    x: 0,
+                    duration: 1.5,
+                    ease: 'power2.in'
+                }, 0);
+
+                // Text Zone 2 erscheint
+                if (zone2Box && !zone2Box.classList.contains('visible')) {
+                    zone2Box.classList.add('visible');
                 }
             }
         });
@@ -238,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initiale Updates
-    updateSubmarine();
+    updateSubmarineWave();
     updateDepthMeter();
     updateMeterScroll();
 });
