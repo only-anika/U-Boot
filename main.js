@@ -99,138 +99,138 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(box);
     });
 
-    // GSAP Animation für Zone 1 -> Schildkröte
-    let zone1AnimationPlayed = false;
-    let zone1AnimationReversed = false;
-    let turtleFixed = false;
+    // Initiale Position der Schildkröte sicherstellen - RECHTS außerhalb (mit left!)
+    gsap.set(turtleContainer, {
+        left: '100vw',  // Rechts außerhalb des Bildschirms
+        right: 'auto',
+        x: 0
+    });
 
-    if (zone1Section && turtleContainer) {
+    // GSAP Animation nach Skizze
+    // Zone 1 (0-70%): Text der 1. Meeresebene wird angezeigt
+    // Zone 1 (70-100%): Text-Kästchen gleitet raus, Schildkröte kommt von RECHTS
+    // Zone 2 (ab 10%): Schildkröte verschwindet nach LINKS, Text Zone 2 erscheint
+    
+    let textPushedOut = false;
+    let turtleVisible = false;
+
+    if (zone1Section && zone2Section && turtleContainer) {
         window.addEventListener('scroll', () => {
             const zone1Rect = zone1Section.getBoundingClientRect();
             const zone1Height = zone1Section.offsetHeight;
             const zone1ScrolledIn = zone1Height - zone1Rect.top;
             const zone1Progress = zone1ScrolledIn / zone1Height;
 
-            const zone1Box = zone1Section.querySelector('.content-box');
-
-            // Animation startet ERST bei 85% Scroll in Zone 1
-            if (zone1Progress > 0.85 && zone1Progress < 2.0) {
-                if (!zone1AnimationPlayed) {
-                    zone1AnimationPlayed = true;
-                    zone1AnimationReversed = false;
-
-                    const tl = gsap.timeline({
-                        onComplete: () => {
-                            // Nach Animation: Schildkröte bleibt stehen
-                            turtleFixed = true;
-                        }
-                    });
-
-                    // 1. Text gleitet nach links raus
-                    if (zone1Box) {
-                        tl.to(zone1Box, {
-                            x: '-200%',
-                            duration: 1.2,
-                            ease: 'power2.inOut'
-                        }, 0);
-                    }
-
-                    // 2. Schildkröte + Blase schwimmen GEMEINSAM von RECHTS herein
-                    tl.fromTo(turtleContainer, 
-                        {
-                            right: '-1000px',
-                            left: 'auto'
-                        },
-                        {
-                            right: 'auto',
-                            left: '50%',
-                            x: '-50%',
-                            duration: 1.8,
-                            ease: 'power2.out'
-                        }, 0);
-
-                    // 3. U-Boot taucht nach links
-                    tl.to(submarine, {
-                        left: '220px',
-                        right: 'auto',
-                        duration: 1.2,
-                        ease: 'power2.inOut'
-                    }, 0);
-                }
-            } else if (zone1Progress <= 0.85 && !turtleFixed) {
-                if (zone1AnimationPlayed && !zone1AnimationReversed) {
-                    zone1AnimationReversed = true;
-                    zone1AnimationPlayed = false;
-
-                    const tlBack = gsap.timeline();
-
-                    if (zone1Box) {
-                        tlBack.to(zone1Box, {
-                            x: 0,
-                            duration: 1.2,
-                            ease: 'power2.inOut'
-                        }, 0);
-                    }
-
-                    tlBack.to(turtleContainer, {
-                        right: '-1000px',
-                        left: 'auto',
-                        x: 0,
-                        duration: 1.5,
-                        ease: 'power2.in'
-                    }, 0);
-
-                    tlBack.to(submarine, {
-                        left: 'auto',
-                        right: '8%',
-                        duration: 1.2,
-                        ease: 'power2.inOut'
-                    }, 0);
-                }
-            }
-        });
-    }
-
-    // GSAP Animation für Zone 2
-    let zone2AnimationPlayed = false;
-
-    if (zone2Section) {
-        window.addEventListener('scroll', () => {
             const zone2Rect = zone2Section.getBoundingClientRect();
             const zone2Height = zone2Section.offsetHeight;
             const zone2ScrolledIn = zone2Height - zone2Rect.top;
             const zone2Progress = zone2ScrolledIn / zone2Height;
 
+            const zone1Box = zone1Section.querySelector('.content-box');
             const zone2Box = zone2Section.querySelector('.content-box');
 
-            // Erst bei 30% in Zone 2
-            if (zone2Progress > 0.3 && !zone2AnimationPlayed) {
-                zone2AnimationPlayed = true;
-                turtleFixed = false;
+            // Bei 70% in Zone 1: Text-Kästchen wird nach links rausgeschoben
+            if (zone1Progress > 0.7 && !textPushedOut) {
+                textPushedOut = true;
 
-                const tl2 = gsap.timeline();
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        // Sobald Text weg ist, kommt Schildkröte
+                        turtleVisible = true;
+                        
+                        const tl2 = gsap.timeline();
+                        // Schildkröte schwimmt von RECHTS (außerhalb) in die Mitte
+                        tl2.fromTo(turtleContainer, 
+                            {
+                                left: '100vw',  // Start: rechts außerhalb des Bildschirms
+                                right: 'auto',
+                                x: 0
+                            },
+                            {
+                                left: '50%',
+                                right: 'auto',
+                                x: '-50%',  // Zentriert
+                                duration: 2.5,
+                                ease: 'power2.out'
+                            }, 0);
+                    }
+                });
 
-                // U-Boot taucht ZURÜCK nach rechts
-                tl2.to(submarine, {
-                    left: 'auto',
-                    right: '8%',
-                    duration: 1.2,
-                    ease: 'power2.inOut'
-                }, 0);
+                // Text gleitet nach links raus
+                if (zone1Box) {
+                    tl.to(zone1Box, {
+                        x: '-200%',
+                        opacity: 0,
+                        duration: 1.2,
+                        ease: 'power2.inOut'
+                    }, 0);
+                }
 
-                // Schildkröte verschwindet nach rechts raus
-                tl2.to(turtleContainer, {
-                    right: '-1000px',
-                    left: 'auto',
-                    x: 0,
+                // U-Boot taucht nach LINKS (neben Tiefenmeter)
+                tl.to(submarine, {
+                    left: '280px',  // Weiter weg vom Tiefenmeter
+                    right: 'auto',
                     duration: 1.5,
+                    ease: 'power2.inOut'
+                }, 0.3);
+            }
+
+            // Wenn Zone 2 beginnt (bei 5%): Schildkröte verschwindet schnell nach LINKS
+            if (zone2Progress > 0.05 && turtleVisible) {
+                turtleVisible = false;
+
+                const tl3 = gsap.timeline();
+
+                // Schildkröte schwimmt schnell nach LINKS raus
+                tl3.to(turtleContainer, {
+                    left: '-1000px',
+                    right: 'auto',
+                    x: 0,
+                    duration: 1.0,  // Schneller
                     ease: 'power2.in'
                 }, 0);
 
-                // Text Zone 2 erscheint
+                // Zone 2 Text erscheint
                 if (zone2Box && !zone2Box.classList.contains('visible')) {
-                    zone2Box.classList.add('visible');
+                    setTimeout(() => {
+                        zone2Box.classList.add('visible');
+                    }, 200);
                 }
+            }
+
+            // Reset wenn zurückgescrollt wird
+            if (zone1Progress <= 0.7 && textPushedOut) {
+                textPushedOut = false;
+                turtleVisible = false;
+
+                const tlBack = gsap.timeline();
+
+                // Text kommt zurück
+                if (zone1Box) {
+                    tlBack.to(zone1Box, {
+                        x: 0,
+                        opacity: 1,
+                        duration: 1.2,
+                        ease: 'power2.inOut'
+                    }, 0);
+                }
+
+                // Schildkröte zurück nach RECHTS außerhalb (versteckt)
+                tlBack.to(turtleContainer, {
+                    left: '100vw',
+                    right: 'auto',
+                    x: 0,
+                    duration: 0.8,
+                    ease: 'power2.in'
+                }, 0);
+
+                // U-Boot zurück nach RECHTS
+                tlBack.to(submarine, {
+                    left: 'auto',
+                    right: '8%',
+                    duration: 1.5,
+                    ease: 'power2.inOut'
+                }, 0);
             }
         });
     }
