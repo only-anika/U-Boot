@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         left: '100vw',
         right: 'auto',
         x: 0,
+        y: '-50%',
         opacity: 1
     });
 
@@ -127,34 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const zone1Box = zone1Section.querySelector('.content-box');
             const zone2Box = zone2Section.querySelector('.content-box');
 
-            // Bei 1500m: Text-Kästchen wird nach links rausgeschoben
-            if (currentDepth >= 1500 && !textPushedOut) {
+            // Bei 2000m: Text-Kästchen wird nach links rausgeschoben
+            if (currentDepth >= 2000 && !textPushedOut) {
                 textPushedOut = true;
 
-                const tl = gsap.timeline({
-                    onComplete: () => {
-                        // Sobald Text weg ist, kommt Schildkröte
-                        turtleVisible = true;
-                        
-                        const tl2 = gsap.timeline();
-                        // Schildkröte schwimmt von RECHTS (außerhalb) in die Mitte
-                        tl2.fromTo(turtleContainer, 
-                            {
-                                left: '100vw',
-                                right: 'auto',
-                                x: 0,
-                                opacity: 1
-                            },
-                            {
-                                left: '50%',
-                                right: 'auto',
-                                x: '-50%',
-                                opacity: 1,
-                                duration: 2.5,
-                                ease: 'power2.out'
-                            }, 0);
-                    }
-                });
+                const tl = gsap.timeline();
 
                 // Text gleitet nach links raus
                 if (zone1Box) {
@@ -165,10 +143,30 @@ document.addEventListener('DOMContentLoaded', () => {
                         ease: 'power2.inOut'
                     }, 0);
                 }
+
+                // Schildkröte schwimmt GLEICHZEITIG von RECHTS rein
+                turtleVisible = true;
+                tl.fromTo(turtleContainer, 
+                    {
+                        left: '100vw',
+                        right: 'auto',
+                        x: 0,
+                        y: '-50%',
+                        opacity: 1
+                    },
+                    {
+                        left: '50%',
+                        right: 'auto',
+                        x: '-50%',
+                        y: '-50%',
+                        opacity: 1,
+                        duration: 1.2,
+                        ease: 'power2.out'
+                    }, 0);
             }
 
-            // Wenn Zone 2 KURZ BEVOR sie beginnt: Schildkröte verschwindet SOFORT komplett
-            if (zone2Progress > -0.5 && turtleVisible) {
+            // Wenn Zone 2 WIRKLICH im Sichtbereich ist: Schildkröte verschwindet
+            if (zone2Progress > 0.3 && turtleVisible) {
                 turtleVisible = false;
 
                 const tl3 = gsap.timeline();
@@ -179,9 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     right: 'auto',
                     x: 0,
                     opacity: 0,
-                    duration: 0.1,  // Extrem schnell
+                    duration: 1.5,
                     ease: 'power2.in',
-                    display: 'none'  // Komplett verstecken
+                    display: 'none'
                 }, 0);
 
                 // Zone 2 Text erscheint
@@ -192,8 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Reset wenn zurückgescrollt wird (unter 1500m)
-            if (currentDepth < 1500 && textPushedOut) {
+            // Reset wenn zurückgescrollt wird (unter 2000m)
+            if (currentDepth < 2000 && textPushedOut) {
                 textPushedOut = false;
                 turtleVisible = false;
 
@@ -209,12 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 0);
                 }
 
-                // Schildkröte zurück nach RECHTS außerhalb (versteckt aber sichtbar)
+                // Schildkröte zurück nach RECHTS außerhalb (versteckt)
                 tlBack.to(turtleContainer, {
                     left: '100vw',
                     right: 'auto',
                     x: 0,
+                    y: '-50%',
                     opacity: 1,
+                    display: 'flex',
                     duration: 0.8,
                     ease: 'power2.in'
                 }, 0);
